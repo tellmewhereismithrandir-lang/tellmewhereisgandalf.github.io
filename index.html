@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peter — QA Engineer & Developer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #f5f0e8;
+      --warm-white: #fdfaf5;
+      --brown: #3d2b1f;
+      --brown-light: #6b4c3b;
+      --amber: #c8832a;
+      --amber-light: #e8a84a;
+      --sage: #7a8c6e;
+      --muted: #8a7a70;
+      --card-bg: #fff8f0;
+      --border: #e2d5c3;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--warm-white);
+      color: var(--brown);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Grain texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.5;
+    }
+
+    /* Nav */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 1.2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(253, 250, 245, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-family: 'Lora', serif;
+      font-size: 1.1rem;
+      color: var(--brown);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--amber);
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 3rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(200, 131, 42, 0.08) 0%, transparent 60%),
+                  radial-gradient(ellipse at 20% 80%, rgba(122, 140, 110, 0.06) 0%, transparent 50%);
+    }
+
+    .hero-content {
+      max-width: 700px;
+      position: relative;
+      animation: fadeUp 0.9s ease both;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--amber);
+      border: 1px solid var(--amber);
+      padding: 0.3rem 0.8rem;
+      border-radius: 2rem;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.9s 0.1s ease both;
+    }
+
+    h1 {
+      font-family: 'Lora', serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      line-height: 1.15;
+      color: var(--brown);
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.9s 0.2s ease both;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--amber);
+    }
+
+    .hero-text {
+      font-size: 1.1rem;
+      color: var(--brown-light);
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      animation: fadeUp 0.9s 0.3s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      animation: fadeUp 0.9s 0.4s ease both;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.8rem;
+      border-radius: 3rem;
+      font-size: 0.9rem;
+      font-family: 'DM Sans', sans-serif;
+      text-decoration: none;
+      transition: all 0.25s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--amber);
+      color: white;
+      font-weight: 500;
+    }
+
+    .btn-primary:hover {
+      background: var(--amber-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(200, 131, 42, 0.25);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--brown);
+      border: 1.5px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--amber);
+      color: var(--amber);
+      transform: translateY(-2px);
+    }
+
+    /* Sections */
+    section {
+      padding: 6rem 3rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-label::after {
+      content: '';
+      display: block;
+      height: 1px;
+      width: 40px;
+      background: var(--sage);
+      opacity: 0.4;
+    }
+
+    h2 {
+      font-family: 'Lora', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      color: var(--brown);
+      margin-bottom: 1rem;
+      line-height: 1.25;
+    }
+
+    .section-intro {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 560px;
+      margin-bottom: 3rem;
+    }
+
+    /* About */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-photo-placeholder {
+      aspect-ratio: 3/4;
+      background: var(--cream);
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .about-photo-placeholder svg {
+      width: 48px;
+      height: 48px;
+      opacity: 0.3;
+    }
+
+    .about-text p {
+      color: var(--brown-light);
+      margin-bottom: 1.25rem;
+      font-size: 1rem;
+    }
+
+    .interest-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .tag {
+      font-size: 0.8rem;
+      padding: 0.35rem 0.9rem;
+      border-radius: 2rem;
+      background: var(--cream);
+      color: var(--brown-light);
+      border: 1px solid var(--border);
+    }
+
+    /* Services */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .service-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 2rem;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--amber);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(61, 43, 31, 0.08);
+      border-color: var(--amber-light);
+    }
+
+    .service-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .service-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .service-card h3 {
+      font-family: 'Lora', serif;
+      font-size: 1.1rem;
+      color: var(--brown);
+      margin-bottom: 0.6rem;
+    }
+
+    .service-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* Portfolio */
+    .portfolio-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 2rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      margin-bottom: 1rem;
+      transition: all 0.3s;
+    }
+
+    .portfolio-card:hover {
+      transform: translateX(6px);
+      border-color: var(--amber-light);
+      box-shadow: 0 8px 24px rgba(61, 43, 31, 0.06);
+    }
+
+    .portfolio-info h3 {
+      font-family: 'Lora', serif;
+      font-size: 1.15rem;
+      color: var(--brown);
+      margin-bottom: 0.4rem;
+    }
+
+    .portfolio-info p {
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .portfolio-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.75rem;
+    }
+
+    .tag-tech {
+      font-size: 0.72rem;
+      padding: 0.2rem 0.65rem;
+      border-radius: 2rem;
+      background: rgba(200, 131, 42, 0.1);
+      color: var(--amber);
+      border: 1px solid rgba(200, 131, 42, 0.2);
+    }
+
+    .portfolio-link {
+      color: var(--amber);
+      text-decoration: none;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: gap 0.2s;
+    }
+
+    .portfolio-link:hover {
+      gap: 0.7rem;
+    }
+
+    /* Contact */
+    #contact {
+      text-align: center;
+    }
+
+    #contact h2 {
+      margin: 0 auto 1rem;
+    }
+
+    #contact .section-intro {
+      margin: 0 auto 2.5rem;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem 3rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.5rem; }
+      .hero { padding: 7rem 1.5rem 3rem; }
+      section { padding: 4rem 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      .portfolio-card { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="nav-logo">Peter</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <span class="hero-tag">Open to freelance work</span>
+      <h1>Developer &amp; <em>QA Engineer</em> based in the Pacific Northwest</h1>
+      <p class="hero-text">
+        I got into coding through game development and grew to love building and 
+        breaking software. I help teams ship with confidence through automation, 
+        scripting, and thoughtful testing.
+      </p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary">Get in touch</a>
+        <a href="#portfolio" class="btn btn-outline">See my work</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- About -->
+  <section id="about">
+    <div class="about-grid">
+      <div class="about-photo-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+        <span>Photo coming soon</span>
+      </div>
+      <div class="about-text reveal">
+        <div class="section-label">About me</div>
+        <h2>Genuine curiosity drives everything I do</h2>
+        <p>
+          I came to software through game development — I wanted to build worlds, 
+          and that meant learning to code. What started as a hobby turned into a 
+          genuine passion for how software is built and, just as importantly, 
+          how it breaks.
+        </p>
+        <p>
+          Today I focus on QA automation and Python scripting, helping make sure 
+          the things people build actually work the way they're supposed to. I care 
+          about doing honest, thorough work.
+        </p>
+        <p>
+          When I'm not at the keyboard I'm usually thinking about philosophy or 
+          physics — the kind of questions that don't have easy answers.
+        </p>
+        <div class="interest-tags">
+          <span class="tag">🎮 Godot / GDScript</span>
+          <span class="tag">🧪 QA Automation</span>
+          <span class="tag">🐍 Python</span>
+          <span class="tag">📐 Philosophy</span>
+          <span class="tag">⚛️ Physics</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Services -->
+  <section id="services">
+    <div class="section-label">What I offer</div>
+    <h2>Services</h2>
+    <p class="section-intro">
+      A range of services built around making software reliable, automating the tedious, 
+      and shipping with confidence.
+    </p>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-icon">🧪</div>
+        <h3>QA Automation</h3>
+        <p>End-to-end test suites using Playwright and pytest. Page Object Model architecture, CI/CD integration, and clear reporting.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">🔍</div>
+        <h3>Manual QA Testing</h3>
+        <p>Thorough exploratory and functional testing with detailed bug reports. A fresh set of eyes on your product before it ships.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">🐍</div>
+        <h3>Python Scripting</h3>
+        <p>Workflow automation, data processing, API integrations, and custom scripts that save you time on repetitive tasks.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon">🎮</div>
+        <h3>Game Development</h3>
+        <p>Game development and prototyping with Godot and GDScript. Mechanics, systems, and bringing ideas to life.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Portfolio -->
+  <section id="portfolio">
+    <div class="section-label">My work</div>
+    <h2>Portfolio</h2>
+    <p class="section-intro">
+      Real projects, built from scratch. More being added as I go.
+    </p>
+
+    <div class="portfolio-card reveal">
+      <div class="portfolio-info">
+        <h3>Playwright Portfolio — SauceDemo Test Suite</h3>
+        <p>A growing collection of automated E2E tests covering login, inventory, sorting, and cart functionality. Built with Page Object Model architecture.</p>
+        <div class="portfolio-tags">
+          <span class="tag-tech">Python</span>
+          <span class="tag-tech">Playwright</span>
+          <span class="tag-tech">pytest</span>
+          <span class="tag-tech">Page Object Model</span>
+          <span class="tag-tech">GitHub</span>
+        </div>
+      </div>
+      <a href="https://github.com/tellmewhereisgandalf-lang/playwright-portfolio" target="_blank" class="portfolio-link">
+        View on GitHub →
+      </a>
+    </div>
+
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="section-label">Get in touch</div>
+    <h2>Let's work together</h2>
+    <p class="section-intro">
+      I'm open to freelance projects, contracts, and collaborations. 
+      Reach out and let's see if we'd be a good fit.
+    </p>
+    <div class="contact-links">
+      <a href="mailto:tellmewhereismithrandir@gmail.com" class="btn btn-primary">
+        ✉️ Send me an email
+      </a>
+      <a href="https://github.com/tellmewhereisgandalf" target="_blank" class="btn btn-outline">
+        GitHub Profile
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Peter · Built with care · Hosted on GitHub Pages</p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
